@@ -38,7 +38,7 @@ public class BackendTableIterable implements Iterable<Object[]> {
                     break;
 
                 case DATE:
-                    row[i] = ((LocalDate) value).toEpochDay();
+                    row[i] = (int) ((LocalDate) value).toEpochDay();
 
                     break;
 
