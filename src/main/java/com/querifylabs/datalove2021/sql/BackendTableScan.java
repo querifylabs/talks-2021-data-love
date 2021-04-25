@@ -20,6 +20,7 @@ import org.apache.calcite.plan.RelOptCluster;
 import org.apache.calcite.plan.RelOptPlanner;
 import org.apache.calcite.plan.RelOptTable;
 import org.apache.calcite.plan.RelTraitSet;
+import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.rel.RelWriter;
 import org.apache.calcite.rel.core.TableScan;
 import org.apache.calcite.rel.metadata.RelMdUtil;
@@ -28,6 +29,7 @@ import org.apache.calcite.rex.RexNode;
 import org.apache.calcite.util.BuiltInMethod;
 
 import java.util.Collections;
+import java.util.List;
 
 import static com.querifylabs.datalove2021.sql.enumerable.BackendTableQueryable.METHOD_CAST;
 import static com.querifylabs.datalove2021.sql.enumerable.BackendTableQueryable.METHOD_WITH_PREDICATE;
@@ -74,6 +76,11 @@ public class BackendTableScan extends TableScan implements EnumerableRel {
     public RelWriter explainTerms(RelWriter pw) {
         return super.explainTerms(pw)
             .itemIf("filter", filter, filter != null);
+    }
+
+    @Override
+    public RelNode copy(RelTraitSet traitSet, List<RelNode> inputs) {
+        return new BackendTableScan(getCluster(), traitSet, table, filter);
     }
 
     @Override
